@@ -1,12 +1,12 @@
 #! /usr/bin/env python3
-
-import time
-import os
 import json
+import os
+import time
+
 from dotenv import load_dotenv
-from web3 import Web3
 from eth_account import Account
 from solcx import compile_files, install_solc
+from web3 import Web3
 
 # Install Solidity compiler
 install_solc("0.8.7")
@@ -73,12 +73,14 @@ def deploy_contract():
 
     # Build transaction
     nonce = web3.eth.get_transaction_count(ACCOUNT.address)
-    transaction = contract.constructor().build_transaction({
-        "chainId": NETWORK["chain_id"],
-        "gas": NETWORK["gas_limit"]["deploy"],
-        "gasPrice": web3.to_wei(NETWORK["gas_price"], "gwei"),
-        "nonce": nonce,
-    })
+    transaction = contract.constructor().build_transaction(
+        {
+            "chainId": NETWORK["chain_id"],
+            "gas": NETWORK["gas_limit"]["deploy"],
+            "gasPrice": web3.to_wei(NETWORK["gas_price"], "gwei"),
+            "nonce": nonce,
+        }
+    )
 
     # Sign and send transaction
     signed_txn = web3.eth.account.sign_transaction(transaction, PRIVATE_KEY)
@@ -127,13 +129,15 @@ def generate_random_numbers(
         nonce = web3.eth.get_transaction_count(account_address)
         transaction = contract.functions.generateRandomNumbers(
             seed, num_random
-        ).build_transaction({
-            "chainId": NETWORK["chain_id"],
-            "gas": NETWORK["gas_limit"]["generate_random"],
-            "gasPrice": web3.to_wei(NETWORK["gas_price"], "gwei"),
-            "nonce": nonce,
-            "from": account_address,
-        })
+        ).build_transaction(
+            {
+                "chainId": NETWORK["chain_id"],
+                "gas": NETWORK["gas_limit"]["generate_random"],
+                "gasPrice": web3.to_wei(NETWORK["gas_price"], "gwei"),
+                "nonce": nonce,
+                "from": account_address,
+            }
+        )
 
         # Sign and send transaction
         signed_txn = web3.eth.account.sign_transaction(transaction, private_key)

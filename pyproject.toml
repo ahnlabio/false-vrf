@@ -11,6 +11,9 @@ web3 = "^6.0.0"
 python-dotenv = "^1.0.0"
 py-solc-x = "^1.1.1"
 
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.9.9"
+
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
