@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "false-vrf"
+version = "0.1.0"
+description = "A lottery system using False VRF for randomness"
+authors = ["1kko-ahnlabio <1kko@ahnlab.io>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10"
+web3 = "^6.0.0"
+python-dotenv = "^1.0.0"
+py-solc-x = "^1.1.1"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
