@@ -1,131 +1,7 @@
 # 🎲 False VRF - Transparent Pseudo-Random Lottery on Blockchain
 A smart contract and Python script utilizing pseudo-random number generation to fairly select winners from a pool of participants. The number of random numbers and winners can be customized by the user.
 
-## 📚 Background
-
-### Why Not a True VRF?
-
-Verifiable Random Functions (VRFs) are the gold standard for generating provably fair random numbers on blockchain. External VRF Solutions provide cryptographically secure randomness that is:
-- Unpredictable (cannot be known in advance)
-- Unbiased (cannot be manipulated by any party)
-- Verifiable (can be proven to be generated correctly)
-
-However, implementing a true VRF comes with challenges:
-- Requires integration with specialized oracle networks
-- Often involves subscription fees or token requirements
-- Adds complexity to smart contract development
-- May be overkill for small-scale or educational projects
-
-### Our Approach
-
-This project offers a simpler alternative that prioritizes:
-- **Transparency**: All random number generation happens on-chain and is visible to everyone
-- **Reproducibility**: Anyone can verify the results by using the same seed
-- **Simplicity**: No external dependencies or complex cryptographic proofs
-- **Educational value**: Easy to understand how randomness is generated and used
-
-While **not suitable** for **high-stakes applications**, this approach is perfect for community giveaways, educational demonstrations, and low-value lotteries where complete unpredictability is less critical than transparency and ease of verification.
-
-
-## 🚀 Features
-- **Interactive CLI** for deployment and verification for lottery.
-- Uses **pseudo-random number generation**.
-- Secure **.env-based private key management**.
-- Option to **deploy** a new contract **or reuse** an existing one.
-- **Anyone** can **generate** random numbers on the contract.
-- **Same random numbers for the same seed** regardless of caller.
-- **Variable number of random numbers and winners** can be specified by the user.
-- **Loads participants from a text file**.
-- **Supports multiple identifier formats** including names, addresses, or any text.
-- **Saves detailed report** with complete verification information.
-- **Custom seed input** or automatic timestamp-based seed.
-- **Compatible on any EVM-compatible chains**. 
-
-
-## 📌 Prerequisites
-- Python **>=3.10**
-- Poetry (for dependency management)
-- Wallet with **Native** funds, in this example (KAIA)
-
-### 📦 Install Dependencies
-```bash
-# Install Poetry if you don't have it
-curl -sSL https://install.python-poetry.org | python3 -
-
-# Install dependencies
-poetry install
-```
-
-
-## 🔧 Setup
-### 1️⃣ Clone the Repo
-```bash
-git clone https://github.com/ahnlabio/false-vrf.git
-cd false-vrf
-```
-
-### 2️⃣ Create `.env` File
-```plaintext
-PRIVATE_KEY=your_wallet_private_key
-```
-
-### 3️⃣ Create Address Files
-You must create at least one of these files with identifiers:
-**`participants.txt`**
-```plaintext
-Alice
-Bob
-...
-Zetta
-```
-
-The script will first try to load participants from `participants.txt`. If the file doesn't exist, the script will exit with an error.
-
-### 4️⃣ Run the Script
-```bash
-poetry run python lottery.py
-```
-
-You'll be prompted with options to:
-1. Deploy a new contract or use an existing one
-2. Generate new random numbers or use existing ones
-
-If you choose to use an existing contract, the script will:
-- First try to read the contract address from `contract_address.txt`
-- If not found, prompt you to enter the contract address manually
-
-
-## 📜 Smart Contract Overview
-```solidity
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
-
-contract SimpleLottery {
-    // Anyone can call this function
-    function generateRandomNumbers(uint256 seed, uint256 count) external;
-    function getRandomNumbers() external view returns (uint256[] memory);
-}
-```
-- **Deploys the SimpleLottery contract**.
-- **Anyone can generate random numbers** based on a seed and count.
-- **Retrieves the generated random numbers**.
-
----
-
-## 🛠 How It Works
-1. **Deploys Smart Contract** to Kaia Network (or uses an existing one).
-2. **Generates random numbers** on-chain (optional if using existing contract).
-   - User can specify how many random numbers to generate (default: 20).
-   - User can provide a custom seed or use the current timestamp.
-3. **Retrieves the random numbers** from the contract.
-4. **Loads participants** from `participants.txt`.
-5. **Randomly selects winners** from the pool of participants.
-   - User can specify how many winners to select (default: 20).
-6. **Saves detailed report** for verification.
-7. **Prints the winners**.
-
-
-## 🎯 Example Output
+## 🎯 Preview
 ```plaintext
 🔑 Using account: 0x33bf89ac0576BB926Aa930323bCC6b59fb828102
 💰 Account balance: 2.172671625 KAIA
@@ -177,24 +53,114 @@ Number of random numbers: 20
 ✨ Lottery completed!
 ```
 
-## 🔍 Verifying the Results
+
+## 📚 Background
+
+### Why Not a True VRF?
+
+Verifiable Random Functions (VRFs) are the gold standard for generating provably fair random numbers on blockchain. External VRF Solutions provide cryptographically secure randomness that is:
+- Unpredictable (cannot be known in advance)
+- Unbiased (cannot be manipulated by any party)
+- Verifiable (can be proven to be generated correctly)
+
+However, implementing a true VRF comes with challenges:
+- Requires integration with specialized oracle networks
+- Often involves subscription fees or token requirements
+- Adds complexity to smart contract development
+- May be overkill for small-scale or educational projects
+
+### Our Approach
+
+This project offers a simpler alternative that prioritizes:
+- **Transparency**: All random number generation happens on-chain and is visible to everyone
+- **Reproducibility**: Anyone can verify the results by using the same seed
+- **Simplicity**: No external dependencies or complex cryptographic proofs
+- **Educational value**: Easy to understand how randomness is generated and used
+
+While **not suitable** for **high-stakes applications**, this approach is perfect for community giveaways, educational demonstrations, and low-value lotteries where complete unpredictability is less critical than transparency and ease of verification.
+
+
+## 🚀 Features
+- **Interactive CLI** for deployment and verification for lottery.
+- Uses **pseudo-random number generation**.
+- Secure **.env-based private key management**.
+- Option to **deploy** a new contract **or reuse** an existing one.
+- **Anyone** can **generate** random numbers on the contract.
+- **Same random numbers for the same seed** regardless of caller.
+- **Variable number of random numbers and winners** can be specified by the user.
+- **Loads participants from a text file**.
+- **Supports multiple identifier formats** including names, addresses, or any text.
+- **Saves detailed report** with complete verification information.
+- **Custom seed input** or automatic timestamp-based seed.
+- **Compatible on any EVM-compatible chains**. 
+
+
+## 📌 Prerequisites
+For the sake of simplicity and accessibility, we're using [KAIA Kairos Testnet](https://kairos.kaiascan.io) in this document. However, you may use different any other EVM-compatible chains.
+
+- Python **>=3.10**
+- Private key of Wallet
+- **Native** funds in the wallet. You can get from [Kaia Kairos Faucet](https://www.kaia.io/faucet)
+
+---
+## 🔧 Setup & Run
+
+#### 1️⃣ Install Dependencies
+Install [Poetry](https://python-poetry.org/docs/#installation) if you don't have it. 
+```bash
+curl -sSL https://install.python-poetry.org | python3 -
+```
+
+#### 2️⃣ Clone the Repo
+```bash
+git clone https://github.com/ahnlabio/false-vrf.git && cd false-vrf
+```
+
+#### 3️⃣ Install dependencies
+```bash
+poetry install
+```
+
+#### 4️⃣ Create `.env` File
+Please create **`.env`** file to store `PRIVATE_KEY`. This is required to deploy and execute smartcontract. 
+```plaintext
+PRIVATE_KEY=your_wallet_private_key
+```
+
+#### 5️⃣ Create `participants.txt` Files
+You must create **`participants.txt`** file with Participant's identifiers (eg. name, uuid, etc).
+The script will first try to load participants from `participants.txt`. If the file doesn't exist, the script will exit with an error.
+
+```plaintext
+Alice
+Bob
+...
+Zetta
+```
+
+#### 6️⃣ Run the Script
+```bash
+poetry run python lottery.py
+```
+---
+## 🔍 Verify
 
 The lottery results can be verified using the following steps:
 
-### 1️⃣ Check the Report File
+#### 1️⃣ Check the Report File
 The `report.md` file contains all the information needed for verification:
 ```
 # LOTTERY VERIFICATION INFORMATION
 - 📆 Date: 2023-06-15 14:30:45
 - 🌐 Network: Kaia Kairos Testnet
 - 🔗 RPC URL: https://public-en-kairos.node.kaia.io
-- 🔗 Chain ID: 2221
+- 🔗 Chain ID: 1001
 - 📄 Contract Address: 0x36F7d2C7a78310F18D7d323B29D3e546201B4074
 - 🔑 Seed: 12345
 
 ## RESULTS
-- 🎲 Random Numbers (Total: 30): [34782109024670728339275626588312815753907165073157573742582851640136195104572, ...]
-- 📄 Total Participants: 40
+- 🎲 Random Numbers (Total: 39): [34782109024670728339275626588312815753907165073157573742582851640136195104572, ...]
+- 📄 Total Participants: 39
 - 🎉 Number of Winners: 15
 
 ## VERIFICATION MAPPING
@@ -214,52 +180,81 @@ This file includes all the information needed to reproduce and verify the lotter
 - Contract address
 - Seed used for random number generation
 - Complete list of random numbers generated
-- Total number of addresses and winners
+- Total number of participants and winners
 
-### 2️⃣ Check the Smart Contract
+#### 2️⃣ Check the Smart Contract
 The deployed smart contract address is saved in `contract_address.txt`. You can verify the contract on the Kaia Network explorer:
 ```
-https://explorer.kaia.io/address/YOUR_CONTRACT_ADDRESS
+https://kairos.kaiascan.io/address/YOUR_CONTRACT_ADDRESS
 ```
 
-### 3️⃣ Verify Random Numbers
+#### 3️⃣ Verify Random Numbers
 The random numbers are generated on-chain using given seed (default: timestamp). You can verify them by:
 1. Calling the `getRandomNumbers()` function on the deployed contract
 2. Checking the transaction that called `generateRandomNumbers(seed)`
 
 **Note:** The contract will produce the same random numbers for the same seed value, regardless of which wallet calls the function. This makes verification easier as anyone can reproduce the exact same random numbers by using the same seed.
 
-### 4️⃣ Verify Winner Selection
+#### 4️⃣ Verify Winner Selection
 The winners are selected using the following algorithm:
 1. Each random number is used to select a winner: `winner_index = random_number % total_addresses`
 2. The script avoids duplicate winners by tracking used indices
-3. The complete list of winners is saved to `winners.txt`
+3. The mapping of this indices is in the section `VERIFICATION MAPPING` in  `report.md`
 
 You can manually verify that:
 - Each winner is from the original address list
 - The selection follows the algorithm above
 - No winner appears twice in the list
 
-### 5️⃣ Cross-check with Transaction Data
+#### 5️⃣ Cross-check with Transaction Data
 All transactions are recorded on the blockchain. You can verify:
 - Contract deployment transaction
 - Random number generation transaction
 - The timestamp used as the seed
 
 
+## 🛠 How It Works
+1. **Deploys Smart Contract** to Kaia Network (or uses an existing one).
+2. **Generates random numbers** on-chain (optional if using existing contract).
+   - User can specify how many random numbers to generate (default: 20).
+   - User can provide a custom seed or use the current timestamp.
+3. **Retrieves the random numbers** from the contract.
+4. **Loads participants** from `participants.txt`.
+5. **Randomly selects winners** from the pool of participants.
+   - User can specify how many winners to select (default: 20).
+6. **Saves detailed report** for verification to `report.md`.
+7. **Prints the winners**.
+
+
+## 📜 Smart Contract Overview
+The Smart Contract is located in `/contracts/SimpleLottery.sol`
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;
+
+contract SimpleLottery {
+    // Anyone can call this function
+    function generateRandomNumbers(uint256 seed, uint256 count) external;
+    function getRandomNumbers() external view returns (uint256[] memory);
+}
+```
+- **Deploys the SimpleLottery contract**.
+- **Anyone can generate random numbers** based on a seed and count.
+- **Retrieves the generated random numbers**.
+
 
 ## 🔢 Understanding the Randomness
 
 ### How This Differs From True VRF
 
-| Feature | This Implementation | True VRF (e.g., Chainlink) |
-|---------|--------------------|-----------------------------|
-| **Unpredictability** | Limited - Anyone who knows the seed can predict the outcome | High - Random numbers cannot be predicted in advance |
-| **Manipulation Resistance** | Medium - On-chain but potentially influenced by miners | High - External randomness sources prevent manipulation |
-| **Verification** | Simple - Anyone can reproduce with the same seed | Cryptographic - Includes mathematical proof of fairness |
-| **Cost** | Low - Standard transaction fees only | Higher - Requires oracle fees/subscriptions |
-| **Complexity** | Low - Simple implementation | Higher - Requires integration with oracle networks |
-| **Transparency** | High - Fully visible on-chain | Medium - Depends on trust in the oracle network |
+| Feature | False VRF (This Implementation) | True VRF (e.g., Chainlink) |
+|---------|:--------------------:|:-----------------------------:|
+| **Unpredictability** | Limited <br>_Anyone who knows the seed can predict the outcome_ | **High** <br>_Random numbers cannot be predicted in advance_ |
+| **Manipulation Resistance** | Medium <br>_On-chain but potentially influenced by miners_ | **High** <br>_External randomness sources prevent manipulation_ |
+| **Verification** | Simple - Anyone can reproduce with the same seed | **Cryptographic** - Includes mathematical proof of fairness |
+| **Cost** | Low - Standard transaction fees only | **Higher** - Requires oracle fees/subscriptions |
+| **Complexity** | Low _Simple implementation_ | **Higher** _Requires integration with oracle networks_ |
+| **Transparency** | **High**<br> _Fully visible on-chain_ | Medium<br> _Depends on trust in the oracle network_ |
 
 ### Mathematical Properties
 
